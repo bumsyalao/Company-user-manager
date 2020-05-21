@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       unique: {
         args: true,
-        msg: 'username already in use'
+        msg: 'company name already in use'
       },
       validate: {
         notEmpty: {
@@ -18,6 +18,9 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   Companies.associate = function(models) {
     // associations can be defined here
+    Companies.belongsToMany(models.Users, { through: 'CompanyUsers',
+      foreignKey: 'companyId',
+      onDelete: 'CASCADE' });
   };
   return Companies;
 };

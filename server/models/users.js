@@ -27,6 +27,10 @@ module.exports = (sequelize, DataTypes) => {
         }
       },
     },
+    companyId: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    }, 
   }, {
     hooks: {
       beforeCreate(user) {
@@ -56,6 +60,9 @@ module.exports = (sequelize, DataTypes) => {
   });
   Users.associate = function(models) {
     // associations can be defined here
+    Users.belongsToMany(models.Companies, { through: 'CompanyUsers',
+    foreignKey: 'userId',
+    onDelete: 'CASCADE' });
   };
   return Users;
 };
