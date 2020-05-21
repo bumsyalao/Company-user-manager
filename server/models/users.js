@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt');
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Users = sequelize.define('Users', {
@@ -45,20 +46,11 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    instanceMethods: {
-      verifyPassword(userPassword) {
-        return bcrypt.compareSync(userPassword, this.password);
-      },
-      filterUserDetails() {
-        const details = this.get();
-        delete details.password;
-        delete details.updatedAt;
-
-        return details;
-      }
-    }
   });
-  Users.associate = function (models) {
+  Users.prototype.verifyPassword = function (userPassword) {
+    return bcrypt.compareSync(userPassword, this.password);
+  };
+  Users.associate = (models) => {
     // associations can be defined here
     Users.belongsToMany(models.Companies, {
       through: 'CompanyUsers',

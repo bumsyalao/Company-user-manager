@@ -1,7 +1,7 @@
 const express = require('express');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
-// const routes = require('./server/routes');
+const routes = require('./server/routes');
 
 const port = parseInt(process.env.PORT, 10) || 8000;
 
@@ -16,14 +16,21 @@ app.use(logger('dev'));
 // Parse incoming requests data (https://github.com/expressjs/body-parser)
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 
-// // Require our routes into the application.
+// Require our routes into the application.
 
-// routes(app);
+routes(app);
+
 app.get('*', (req, res) => res.status(200).send({
   message: 'Welcome to the beginning of nothingness.',
 }));
+
+app.listen(port, () => {
+  console.log(`App started on port ${port}!`);
+});
 
 
 module.exports = app;

@@ -15,10 +15,14 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
     }
   }, {});
-  Requests.associate = function(models) {
+  Requests.associate = function (models) {
     // associations can be defined here
-    Request.belongsTo(models.Companies, { foreignKey: 'companyId' });
-    Request.belongsTo(models.Users, { foreignKey: 'userId' });
+    Requests.belongsTo(models.Companies, {
+      foreignKey: 'companyId'
+    });
+    Requests.belongsTo(models.Users, {
+      foreignKey: 'userId'
+    });
   };
   return Requests;
 };
