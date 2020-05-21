@@ -16,11 +16,13 @@ module.exports = (sequelize, DataTypes) => {
     },
 
   }, {});
-  Companies.associate = function(models) {
+  Companies.associate = function (models) {
     // associations can be defined here
-    Companies.belongsToMany(models.Users, { through: 'CompanyUsers',
+    Companies.belongsToMany(models.Users, {
+      through: 'CompanyUsers',
       foreignKey: 'companyId',
-      onDelete: 'CASCADE' });
+      onDelete: 'CASCADE'
+    });
   };
   return Companies;
 };
