@@ -2,6 +2,15 @@ const bcrypt = require('bcrypt');
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Users = sequelize.define('Users', {
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: 'field must not be empty'
+        },
+      },
+    },
     email: {
       type: DataTypes.STRING,
       allowNull: false,

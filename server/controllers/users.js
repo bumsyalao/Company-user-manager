@@ -17,14 +17,16 @@ class Users {
    * @returns {response} response object
    */
   signup(req, res) {
-    if (req.body.email && req.body.password) {
+    if (req.body.username && req.body.email && req.body.password) {
       User.create({
+          username: req.body.username,
           email: req.body.email,
           password: req.body.password
         })
         .then((newUser) => {
           const token = jwt.sign({
               userId: newUser.id,
+              username: newUser.username,
               email: newUser.email
             },
             secret, {
@@ -33,6 +35,7 @@ class Users {
           );
           const userInfo = {
             userId: newUser.id,
+            username: newUser.username,
             email: newUser.email
           };
           return res.status(200).send({
