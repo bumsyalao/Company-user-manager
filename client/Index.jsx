@@ -21,8 +21,8 @@ import Routes from './Routes';
 //     store.dispatch(
 //       { type: LOGGEDIN_USER, userInfo }
 //     );
-//   }
-// }
+//     //   }
+//     // }
 
 render(
   <Provider store={store}>

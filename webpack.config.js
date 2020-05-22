@@ -1,5 +1,4 @@
 'use strict';
-
 const ENVIRONMENT = process.env.NODE_ENV;
 const webpack = require('webpack');
 const path = require('path');
@@ -28,36 +27,20 @@ const config = {
   entry: {
     bundle: [`${__dirname}/client/Index.jsx`]
   },
-  target: 'web',
-
   output: {
     libraryTarget: 'var',
-    path: `${__dirname}/dist/`,
-    filename: '[name].js',
+    path: `${__dirname}/dist`,
+    filename: 'bundle.js',
     chunkFilename: '[id].js',
-    publicPath: '/dist/'
+    publicPath: `/`,
   },
-
-  plugins: [
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify(ENVIRONMENT)
-      }
-    }),
-    new webpack.DefinePlugin({
-      'global.GENTLY': false
-    }),
-    new webpack.NoEmitOnErrorsPlugin()
-  ],
-
   resolve: {
-    modules: ['node_modules', 'src'],
+    modules: ['node_modules', 'client'],
     extensions: ['.js', '.jsx'],
     alias: {
       img: path.resolve(__dirname, './img')
     }
   },
-
   module: {
     rules: [{
         test: /\.scss$/,
@@ -84,8 +67,7 @@ const config = {
         test: /\.css$/,
         exclude: /node_modules/,
         loader: ['css-loader']
-      },
-      {
+      }, {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         loader: ['babel-loader']
@@ -105,29 +87,6 @@ const config = {
       }
     ]
   }
-};
-
-// if (ENVIRONMENT === 'development') {
-// add modules for hot reloading
-config.entry.bundle.unshift('webpack-hot-middleware/client');
-config.entry.bundle.unshift('webpack/hot/dev-server');
-config.plugins.push(new webpack.HotModuleReplacementPlugin());
-// } else {
-/**
- * PRODUCTION!
- */
-
-// const options = {
-//   sourceMap: true,
-//   comments: false,
-//   minimize: true,
-//   compress: {
-//     drop_console: true
-//   }
-// };
-
-// // minify JS
-// config.plugins.push(new webpack.optimize.UglifyJsPlugin(options));
-// }
+}
 
 module.exports = config;

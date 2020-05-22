@@ -5,7 +5,7 @@ import Auth from './components/Auth';
 
 const Routes = () => (
   <Switch>
-    <Route exact path="/auth" component={Auth} />
+    <Route exact path="/" component={Auth} />
     {/* <Route path="/homepage" component={Homepage} /> */}
     {/* <Route component={PageNotFound} /> */}
   </Switch>
