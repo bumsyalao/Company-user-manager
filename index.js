@@ -1,13 +1,16 @@
-const express = require('express');
-const logger = require('morgan');
-const bodyParser = require('body-parser');
-const routes = require('./server/routes');
-
+import express from 'express';
+import logger from 'morgan';
+import bodyParser from 'body-parser';
+import routes from './server/routes';
+import path from 'path';
+import webpack from 'webpack';
+import webpackMiddleware from 'webpack-dev-middleware';
+import webpackHotMiddleware from 'webpack-hot-middleware';
+import config from './webpack.config';
 const port = parseInt(process.env.PORT, 10) || 8000;
 
 // Set up the express app
 const app = express();
-
 app.set('port', port);
 
 // Log requests to the console.
@@ -21,12 +24,26 @@ app.use(bodyParser.urlencoded({
 }));
 
 // Require our routes into the application.
-
 routes(app);
 
-app.get('*', (req, res) => res.status(200).send({
-  message: 'Welcome to the beginning of nothingness.',
-}));
+const compiler = webpack(config);
+const env = 'development';
+
+if (env === 'development') {
+  app.use(webpackMiddleware(compiler, {
+    hot: true,
+    publicPath: config.output.publicPath,
+    noInfo: true
+  }));
+  app.use(webpackHotMiddleware(compiler));
+}
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, './client', 'index.html'));
+});
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, './client', 'index.html'));
+});
 
 app.listen(port, () => {
   console.log(`App started on port ${port}!`);
