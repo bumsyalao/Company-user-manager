@@ -1,54 +1,138 @@
-$form-bg: #F5EFEF;
+$gold: #46677B;
+$pink: #C84630;
 
 .auth-form {
-  background: rgba($form-bg, .9);
-  padding: 40px;
-  max-width: 600px;
-  margin: 40px auto;
-  border-radius: 4px;
-  box-shadow: 0 4px 10px 4px rgba($form-bg, .3);
+  @import url(https://fonts.googleapis.com/css?family=Raleway:400,100,200,300);
 
-  .form__header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+  * {
+    margin: 0;
+    padding: 0;
+  }
 
-    small {
-      font-size: 15px;
+  a {
+    color: #666;
+    text-decoration: none;
+  }
 
-      a {
-        color: blue;
-        cursor: pointer;
+  a:hover {
+    color: $gold;
+  }
 
-        &hover {
-          text-decoration: underline;
+  input {
+    font: 16px/26px "Raleway", sans-serif;
+  }
+
+  body {
+    color: #02040F;
+    background-color: #f1f2f2;
+    font: 16px/26px "Raleway", sans-serif;
+  }
+
+  .form-wrap {
+    background-color: #fff;
+    width: 400px;
+    padding: 20px;
+    margin: 3em auto;
+    box-shadow: 0px 1px 8px #BEBEBE;
+    -webkit-box-shadow: 0px 1px 8px #BEBEBE;
+    -moz-box-shadow: 0px 1px 8px #BEBEBE;
+
+    .tabs-content {
+      span {
+        margin-bottom: 3px;
+
+        a {
+          text-align: center;
+          font-weight: 400;
+          background-color: #fff;
+          color: #02040F;
+          cursor: pointer;
+
+          &:hover {
+            color: $pink !important;
+          }
+
         }
+      }
+
+      div[id$="tab-content"] {
+        display: none;
+      }
+
+      .active {
+        display: block !important;
       }
     }
 
-  }
 
-}
+    form {
+      margin-top: 30px;
 
-.user_options-forms {
-  &.signup-click {
+      .input {
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        color: inherit;
+        font-family: inherit;
+        padding: .8em 0 10px .8em;
+        border: 1px solid #CFCFCF;
+        outline: 0;
+        display: inline-block;
+        margin: 0 0 .8em 0;
+        padding-right: 2em;
+        width: 100%;
+      }
 
-    .signup-form {
-      display: block;
+      .button {
+        width: 100%;
+        padding: .8em 0 10px .8em;
+        background-color: $gold;
+        border: none;
+        color: #fff;
+        cursor: pointer;
+        text-transform: uppercase;
+
+        &:hover {
+          background-color: $gold;
+        }
+      }
+
+      label[for] {
+        position: relative;
+        padding-left: 20px;
+        cursor: pointer;
+      }
+
+      label[for]:before {
+        content: '';
+        position: absolute;
+        border: 1px solid #CFCFCF;
+        width: 17px;
+        height: 17px;
+        top: 0px;
+        left: -14px;
+      }
+
+      label[for]:after {
+        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+        filter: alpha(opacity=0);
+        opacity: 0;
+        content: '';
+        position: absolute;
+        width: 9px;
+        height: 5px;
+        background-color: transparent;
+        top: 4px;
+        left: -10px;
+        border: 3px solid $gold;
+        border-top: none;
+        border-right: none;
+        -webkit-transform: rotate(-45deg);
+        -moz-transform: rotate(-45deg);
+        -o-transform: rotate(-45deg);
+        -ms-transform: rotate(-45deg);
+        transform: rotate(-45deg);
+      }
     }
 
-    .signin-form {
-      display: none
-    }
-  }
-
-  &.signin-click {
-    .signin-form {
-      display: block;
-    }
-
-    .signup-form {
-      display: none
-    }
   }
 }

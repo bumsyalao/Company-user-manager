@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { userSignInRequest, userSignUpRequest } from '../actions/authActions';
-import Alert from './Alerts';
 import Alerts from './Alerts';
 
 
@@ -12,7 +12,6 @@ class Auth extends React.Component {
       username: '',
       email: '',
       passowrd: '',
-      show: true
     }
   }
 
@@ -21,18 +20,18 @@ class Auth extends React.Component {
     //   this.props.history.push('/homepage');
     // }
     // Variables
-    const signupButton = document.getElementById('signup-button');
-    const signinButton = document.getElementById('signin-button');
-    const userForms = document.getElementById('user_options-forms');
-    // Add event listener to the "Sign Up" button
-    signupButton.addEventListener('click', () => {
-      userForms.classList.remove('signin-click');
-      userForms.classList.add('signup-click');
+    const signupTab = document.getElementById('signup-tab');
+    const signinTab = document.getElementById('login-tab');
+    const loginForm = document.getElementById('login-tab-content');
+    const signupForm = document.getElementById('signup-tab-content')
+
+    signupTab.addEventListener('click', () => {
+      signupForm.classList.remove('active');
+      loginForm.classList.add('active');
     }, false);
-    // Add event listener to the "signin" button
-    signinButton.addEventListener('click', () => {
-      userForms.classList.remove('signup-click');
-      userForms.classList.add('signin-click');
+    signinTab.addEventListener('click', () => {
+      loginForm.classList.remove('active');
+      signupForm.classList.add('active');
     }, false);
   }
 
@@ -50,7 +49,7 @@ class Auth extends React.Component {
       .userSignInRequest(userData)
       .then((res) => {
         console.log('===signin sucess res', res);
-        // this.props.history.push('/homepage');
+        this.props.history.push('/homepage');
         // this.onRenderAlerts(res.data.message, res.data.status);
       })
       .catch((error) => {
@@ -69,9 +68,9 @@ class Auth extends React.Component {
     this.props
       .userSignUpRequest(userData)
       .then((res) => {
-        console.log('===signup sucess res', res);
-        // this.props.history.push('/homepage');
-        // this.onRenderAlerts(res.data.message, res.data.status);
+        console.log('===signup sucess res', this.props.user.message);
+        this.props.history.push('/homepage');
+        this.onRenderAlerts(this.props.user.message);
       })
       .catch((error) => {
         console.log('=== signup error', error);
@@ -79,54 +78,76 @@ class Auth extends React.Component {
       });
   }
 
-  onRenderAlerts = (message, type) => {
-    return (<Alerts message={message} type={type} />);
+  onRenderAlerts = (message) => {
+    return (<Alerts message={message} />);
   }
 
 
 
   render() {
     return (
-      <div className="auth-form" id="user_options-forms">
-        <div className={this.state.show} id="signin-form">
-          <div className="form__header">
-            <h2>Sign In</h2>
-            <small class="form-text text-muted">Don't have an account? <button id="signup-button">Sign Up</button></small>
+      <div className="auth-form">
+        <div className="form-wrap">
+          <div className="tabs-content">
+            <div id="signup-tab-content" className="active">
+              <span id="signup-tab">Already have an account?<a>Click to login</a></span>
+              <form className="signup-form" onSubmit={this.onSignUp}>
+                <input
+                  value={this.state.username}
+                  onChange={this.onChange}
+                  type="text"
+                  className="input"
+                  id="username"
+                  placeholder="Username"
+                  required />
+                <input
+                  value={this.state.email}
+                  onChange={this.onChange}
+                  type="email"
+                  className="input"
+                  id="email"
+                  placeholder="Email"
+                  required />
+                <input
+                  value={this.state.password}
+                  onChange={this.onChange}
+                  type="password"
+                  className="input"
+                  id="password"
+                  placeholder="Password"
+                  required />
+                <input
+                  type="submit"
+                  className="button"
+                  value="Sign Up" />
+              </form>
+            </div>
+            <div id="login-tab-content">
+              <span id="login-tab">Don't have an account? <a>Click to sign Up</a></span>
+              <form className="login-form" onSubmit={this.onSignIn}>
+                <input
+                  value={this.state.email}
+                  onChange={this.onChange}
+                  type="text"
+                  className="input"
+                  id="email"
+                  placeholder="Email" />
+                <input
+                  value={this.state.password}
+                  onChange={this.onChange}
+                  type="password"
+                  className="input"
+                  id="password"
+                  placeholder="Password" />
+                <input
+                  type="submit"
+                  className="button"
+                  value="Login" />
+              </form>
+            </div>
           </div>
-          <form onSubmit={this.onSignIn}>
-            <div className="form-group">
-              <label for="exampleInputEmail1">Email address</label>
-              <input type="email" className="form-control" id="email" value={this.state.email} onChange={this.onChange} aria-describedby="emailHelp" />
-            </div>
-            <div className="form-group">
-              <label for="exampleInputPassword1">Password</label>
-              <input type="password" className="form-control" id="password" value={this.state.password} onChange={this.onChange} />
-            </div>
-            <button type="submit" className="btn btn-primary">Submit</button>
-          </form>
         </div>
-        <div id="signup-form" className="signup-form">
-          <div className="form__header">
-            <h2>Sign Up</h2>
-            <small class="form-text text-muted">Already have an account? <button id="signin-button">Sign In</button></small>
-          </div>
-          <form onSubmit={this.onSignUp}>
-            <div className="form-group">
-              <label for="Username">Username</label>
-              <input type="username" className="form-control" id="username" value={this.state.username} onChange={this.onChange} aria-describedby="emailHelp" />
-            </div>
-            <div className="form-group">
-              <label for="exampleInputEmail1">Email address</label>
-              <input type="email" className="form-control" id="email" value={this.state.email} onChange={this.onChange} aria-describedby="emailHelp" />
-            </div>
-            <div className="form-group">
-              <label for="exampleInputPassword1">Password</label>
-              <input type="password" className="form-control" id="password" value={this.state.password} onChange={this.onChange} />
-            </div>
-            <button type="submit" className="btn btn-primary">Submit</button>
-          </form>
-        </div>
-      </div>
+      </div >
     );
   }
 }
@@ -136,4 +157,4 @@ const mapStateToProps = state => ({
 });
 const actions = { userSignUpRequest, userSignInRequest };
 
-export default connect(mapStateToProps, actions)(Auth);
+export default connect(mapStateToProps, actions)(withRouter(Auth));
