@@ -14,6 +14,18 @@ module.exports = (sequelize, DataTypes) => {
         },
       }
     },
+    companySize: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    companyType: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    industry: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
 
   }, {});
   Companies.associate = function (models) {
