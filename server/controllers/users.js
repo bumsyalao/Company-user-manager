@@ -80,13 +80,13 @@ class Users {
                 expiresIn: '1 day'
               }
             );
-            const userDetails = {
+            const userInfo = {
               userId: foundUser.id,
               email: foundUser.email,
             };
             return res.status(200).send({
               token,
-              userDetails,
+              userInfo,
               message: 'You have logged in succesfully'
             });
           }

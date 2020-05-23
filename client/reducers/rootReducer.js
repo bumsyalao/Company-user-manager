@@ -2,9 +2,8 @@ import {
   combineReducers
 } from 'redux';
 
-// import access from './accessReducer';
-
+import auth from './authReducer';
 
 export default combineReducers({
-  // access,
+  auth
 });

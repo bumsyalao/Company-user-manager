@@ -28,7 +28,27 @@ $form-bg: #F5EFEF;
 
   }
 
-  #signup-form {
-    display: none;
+}
+
+.user_options-forms {
+  &.signup-click {
+
+    .signup-form {
+      display: block;
+    }
+
+    .signin-form {
+      display: none
+    }
+  }
+
+  &.signin-click {
+    .signin-form {
+      display: block;
+    }
+
+    .signup-form {
+      display: none
+    }
   }
 }
