@@ -18,7 +18,11 @@ class Requests {
     const companyId = Number(req.params.companyName);
     const userId = Number(req.params.userId);
 
-    Companies.findById(companyId)
+    Companies.findOne({
+        where: {
+          companyId
+        }
+      })
       .then((foundCompany) => {
         // check if user is already in group
         RequestModel.findOne({
@@ -83,9 +87,9 @@ class Requests {
             }
           })
           .then((foundUser) => {
-            if (foundUser) {
-              return res.status(409).send({
-                message: 'User is already in company'
+            if (!foundUser) {
+              return res.status(404).send({
+                message: 'Can not find request'
               });
             }
             RequestModel.findOne({
