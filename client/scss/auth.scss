@@ -1,8 +1,7 @@
-$gold: #46677B;
-$pink: #C84630;
+$gold: #f66440;
+$pink: #038595;
 
 .auth-form {
-  @import url(https://fonts.googleapis.com/css?family=Raleway:400,100,200,300);
 
   * {
     margin: 0;
@@ -22,14 +21,8 @@ $pink: #C84630;
     font: 16px/26px "Raleway", sans-serif;
   }
 
-  body {
-    color: #02040F;
-    background-color: #f1f2f2;
-    font: 16px/26px "Raleway", sans-serif;
-  }
-
   .form-wrap {
-    background-color: #fff;
+    background-color: #f8f9fa;
     width: 400px;
     padding: 20px;
     margin: 3em auto;

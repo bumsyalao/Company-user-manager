@@ -1,0 +1,16 @@
+.navigationbar {
+  .navbar-brand {
+    color: #f66440;
+  }
+
+  button {
+    color: #f66440;
+    border: 1px #f66440 solid;
+    outline: none;
+
+    &:hover {
+      background-color: #f66440;
+      color: #ffff;
+    }
+  }
+}
