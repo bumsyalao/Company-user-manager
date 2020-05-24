@@ -37,10 +37,6 @@ module.exports = (sequelize, DataTypes) => {
         }
       },
     },
-    companyId: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-    },
   }, {
     hooks: {
       beforeCreate(user) {

@@ -21,15 +21,6 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
-      companyId: {
-        allowNull: true,
-        foreignKey: true,
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'Companies',
-          key: 'id'
-        }
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

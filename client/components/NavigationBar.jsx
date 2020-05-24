@@ -7,7 +7,7 @@ const NavigationBar = () => {
       <nav className="navbar navbar-light bg-light">
         <a className="navbar-brand">Welcome Bunmi</a>
         <Link to="/homepage/create-company">
-          <button className="btn my-2 my-sm-0" type="submit">Create Your Company</button>
+          <button className="btn my-2 my-sm-0" type="submit">CREATE YOUR COMPANY</button>
         </Link>
       </nav>
     </div>

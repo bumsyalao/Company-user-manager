@@ -26,6 +26,15 @@ module.exports = {
           key: 'id'
         }
       },
+      email: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+
+      companyName: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
