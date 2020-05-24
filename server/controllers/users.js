@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import paginate from '../middleware/paginate';
 import models from '../models';
 
 require('dotenv').config();
@@ -6,6 +7,7 @@ require('dotenv').config();
 const secret = process.env.SECRET;
 
 const User = models.Users;
+const UserCompany = models.UserCompany;
 
 class Users {
 
@@ -105,6 +107,76 @@ class Users {
     }
   }
 
+  /**
+   * Get User's Company
+   * Route: GET: /user/company
+   * @param {object} request object
+   * @param {object} response object
+   */
+  getUserCompany(req, res) {
+    UserCompany.findOne({
+        where: {
+          userId: req.decoded.userId
+        },
+        attributes: [
+          'userId',
+          'email',
+          'companyId',
+          'companyName'
+        ]
+      })
+      .then((foundCompanyUser) => {
+        res.status(200).send({
+          foundCompanyUser
+        })
+      })
+      .catch(() => {
+        res.status(404).send({
+          message: 'No company found'
+        });
+      });
+  }
+
+  /**
+   * Get all Users
+   * Routes: GET /users
+   * @param {object} request object
+   * @param {object} response object
+   */
+  getUsers(req, res) {
+    const {
+      limit,
+      offset,
+      searchParam
+    } = req.query;
+    const search = `${searchParam}%`;
+    User.findAndCountAll({
+        attributes: ['id', 'username', 'email'],
+        limit: limit || 5,
+        offset: offset || 0,
+        where: {
+          username: {
+            $like: `${search || '%'}`
+          }
+        }
+      })
+      .then(({
+        rows: users,
+        count
+      }) => {
+        res.status(200).send({
+          message: 'Users found',
+          users,
+          metaData: paginate(count, limit, offset)
+        });
+      })
+      .catch((error) => {
+        res.status(500).send({
+          error,
+          message: 'There was a server error, please try again'
+        });
+      });
+  }
 }
 
 export default new Users();

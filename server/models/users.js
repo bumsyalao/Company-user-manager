@@ -58,7 +58,11 @@ module.exports = (sequelize, DataTypes) => {
   Users.associate = (models) => {
     // associations can be defined here
     Users.belongsToMany(models.Companies, {
-      through: 'CompanyUsers',
+      through: 'Requests',
+      foreignKey: 'userId',
+      onDelete: 'CASCADE'
+    });
+    Users.hasOne(models.UserCompany, {
       foreignKey: 'userId',
       onDelete: 'CASCADE'
     });

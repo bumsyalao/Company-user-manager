@@ -31,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
   Companies.associate = function (models) {
     // associations can be defined here
     Companies.belongsToMany(models.Users, {
-      through: 'CompanyUsers',
+      through: 'Requests',
       foreignKey: 'companyId',
       onDelete: 'CASCADE'
     });
