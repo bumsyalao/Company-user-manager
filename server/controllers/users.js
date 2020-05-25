@@ -1,4 +1,7 @@
 import jwt from 'jsonwebtoken';
+import {
+  Op
+} from 'sequelize'
 import paginate from '../middleware/paginate';
 import models from '../models';
 
@@ -147,16 +150,17 @@ class Users {
     const {
       limit,
       offset,
-      searchParam
+      search
     } = req.query;
-    const search = `${searchParam}%`;
     User.findAndCountAll({
         attributes: ['id', 'username', 'email'],
         limit: limit || 5,
         offset: offset || 0,
-        where: {
-          username: {
-            $like: `${search || '%'}`
+        ...search && {
+          where: {
+            username: {
+              [Op.like]: `%${search}%`
+            }
           }
         }
       })

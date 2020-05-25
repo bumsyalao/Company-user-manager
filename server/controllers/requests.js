@@ -15,23 +15,16 @@ class Requests {
    */
 
   createRequest(req, res) {
-    const companyId = Number(req.params.companyName);
+    const companyId = Number(req.params.companyId);
     const userId = Number(req.params.userId);
 
-    Companies.findOne({
-        where: {
-          companyId
-        }
-      })
+    Companies.findByPk(companyId)
       .then((foundCompany) => {
         // check if user is already in group
         RequestModel.findOne({
             where: {
-              $and: [{
-                userId
-              }, {
-                companyId
-              }]
+              userId,
+              companyId
             }
           })
           .then((foundUser) => {
@@ -42,7 +35,7 @@ class Requests {
             }
           });
         // Find email from users model
-        Users.findById(userId)
+        Users.findByPk(userId)
           .then((user) => {
             RequestModel.create({
               companyId: foundCompany.id,
@@ -50,16 +43,14 @@ class Requests {
               email: user.email,
               companyName: foundCompany.companyName,
               status: 'new'
-            });
-          })
-          .then(newRequest =>
-            res.status(200).send({
-              newRequest,
-              message: 'Your Request is successful'
-            })
-          ).catch(error => res.status(400).send(error));
-      })
-      .catch(error => res.status(500).send(error));
+            }).then(newRequest => {
+              return res.status(200).send({
+                newRequest,
+                message: 'Your Request is successful'
+              });
+            }).catch(error => res.status(500).send(error));
+          }).catch(error => res.status(500).send(error));
+      }).catch(error => res.status(500).send(error));
   }
 
   /**
@@ -71,50 +62,37 @@ class Requests {
    */
 
   updateRequest(req, res) {
-    const companyId = Number(req.params.companyName);
+    const companyId = Number(req.params.companyId);
     const userId = Number(req.params.userId);
+    // const requestUserId = Number(req.params.userId);
 
-    Companies.findById(companyId)
-      .then((foundCompany) => {
-        // check if user is already in group
-        RequestModel.findOne({
-            where: {
-              $and: [{
-                userId
-              }, {
-                companyId
-              }]
-            }
-          })
-          .then((foundUser) => {
-            if (!foundUser) {
-              return res.status(404).send({
-                message: 'Can not find request'
-              });
-            }
-            RequestModel.findOne({
-                where: {
-                  $and: [{
-                    userId
-                  }, {
-                    companyId
-                  }]
-                }
-              })
-              .then((foundRequest) => {
-                const email = foundCompany.email
-                return foundRequest.update({
-                  status: req.body.status
-                }, {
-                  where: {
-                    email
-                  }
-                }).then(() => res.status(200).send({
-                  message: 'Your request has been accepted'
-                }))
-              }).catch(error => res.status(400).send(error));
+    // check if user is already in group
+    RequestModel.findOne({
+        where: {
+          companyId,
+          userId
+        }
+      })
+      .then((foundRequest) => {
+        if (!foundRequest) {
+          return res.status(404).send({
+            message: 'Can not find request'
+          });
+        }
+        RequestModel.update({
+          status: req.body.status
+        }, {
+          where: {
+            companyId: foundRequest.companyId,
+            userId: foundRequest.userId
+          }
+        }).then(() => {
+          return res.status(200).send({
+            foundRequest,
+            message: `Your request status is ${req.body.status}`
           }).catch(error => res.status(500).send(error));
-      }).catch(error => res.status(404).send(error));
+        }).catch(error => res.status(500).send(error));
+      }).catch(error => res.status(500).send(error));
   }
 
   /**

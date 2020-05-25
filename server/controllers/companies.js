@@ -1,3 +1,7 @@
+import {
+  Op
+} from 'sequelize';
+import paginate from '../middleware/paginate';
 import models from '../models';
 
 const Company = models.Companies;
@@ -56,31 +60,32 @@ class Companies {
     const {
       limit,
       offset,
-      searchParam
+      search
     } = req.query;
-    const search = `${searchParam}%`;
     Company.findAndCountAll({
         attributes: ['id', 'companyName'],
         limit: limit || 5,
         offset: offset || 0,
-        where: {
-          companyName: {
-            $like: `${search || '%'}`
+        ...search && {
+          where: {
+            companyName: {
+              [Op.like]: `%${search}%`
+            }
           }
         }
       })
       .then(({
-        rows: Companies,
+        rows: companies,
         count
       }) => {
         res.status(200).send({
           message: 'Companies found',
-          Companies,
+          companies,
           metaData: paginate(count, limit, offset)
         });
       })
       .catch((error) => {
-        res.status(404).send({
+        res.status(500).send({
           error,
           message: 'There was a server error, please try again'
         });
