@@ -41,8 +41,8 @@ class Companies {
               userId: req.decoded.userId,
               email: req.decoded.email,
               companyName: newCompany.companyName
-            }).then((savedCompany) => res.status(200).send({
-              savedCompany,
+            }).then((companyDetails) => res.status(200).send({
+              companyDetails,
               message: 'Company created successfully'
             })).catch(error => res.status(400).send(error.message))
           }).catch(error => res.status(500).send(error.message));

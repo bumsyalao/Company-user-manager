@@ -11,6 +11,7 @@ const secret = process.env.SECRET;
 
 const User = models.Users;
 const UserCompany = models.UserCompany;
+const Companies = models.Companies;
 
 class Users {
 
@@ -79,6 +80,7 @@ class Users {
           if (foundUser && foundUser.verifyPassword(req.body.password)) {
             const token = jwt.sign({
                 userId: foundUser.id,
+                username: foundUser.username,
                 email: foundUser.email,
               },
               secret, {
@@ -87,6 +89,7 @@ class Users {
             );
             const userInfo = {
               userId: foundUser.id,
+              username: foundUser.username,
               email: foundUser.email,
             };
             return res.status(200).send({
@@ -128,12 +131,28 @@ class Users {
           'companyName'
         ]
       })
-      .then((foundCompanyUser) => {
-        res.status(200).send({
-          foundCompanyUser
-        })
-      })
-      .catch(() => {
+      .then((foundUserCompany) => {
+        Companies.findOne({
+          where: {
+            id: foundUserCompany.companyId
+          },
+          attributes: [
+            'id', 'companyName', 'companySize', 'companyType', 'industry'
+          ]
+        }).then((company) => {
+          const userCompany = {
+            userId: foundUserCompany.userId,
+            companyId: company.id,
+            companyName: company.companyName,
+            companySize: company.companySize,
+            companyType: company.companyType,
+            industry: company.industry
+          }
+          return res.status(200).send({
+            userCompany
+          }).catch(error => res.status(500).send(error.message));
+        }).catch(error => res.status(500).send(error.message));
+      }).catch(() => {
         res.status(404).send({
           message: 'No company found'
         });

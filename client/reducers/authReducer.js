@@ -21,6 +21,7 @@ export default (
       return {
         ...state, user: {}, message: null, isAuthenticated: false
       };
+
     default:
       return state;
   }

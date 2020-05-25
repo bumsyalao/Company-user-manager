@@ -1,17 +1,51 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { logout } from '../actions/authActions';
+import { getUserCompany } from '../actions/companyActions';
 
-const NavigationBar = () => {
-  return (
-    <div className="navigationbar">
-      <nav className="navbar navbar-light bg-light">
-        <a className="navbar-brand">Welcome Bunmi</a>
-        <Link to="/homepage/create-company">
-          <button className="btn my-2 my-sm-0" type="submit">CREATE YOUR COMPANY</button>
-        </Link>
-      </nav>
-    </div>
-  );
+
+class NavigationBar extends React.Component {
+  constructor() {
+    super();
+  }
+
+  componentWillMount() {
+    if (this.props.user) {
+      this.props.getUserCompany();
+    }
+  }
+
+  logout = (event) => {
+    event.preventDefault();
+    this.props.logout();
+    this.props.history.push('/');
+  }
+  render() {
+    const { user } = this.props.user;
+    const { userCompany } = this.props.companies;
+    return (
+      <div className="navigationbar">
+        <nav className="navbar navbar-light bg-light">
+          <a className="navbar-brand">Welcome {user.username && user.username.toUpperCase()}</a>
+          {userCompany.companyName ?
+            <Link to="/homepage/company-page">
+              <button type="submit">{userCompany.companyName.toUpperCase()}{' '}{'COMPANY'}</button>
+            </Link>
+            :
+            <Link to="/homepage/create-company">
+              <button type="submit">CREATE YOUR COMPANY</button>
+            </Link>
+          }
+          <button onClick={this.logout}>LOGOUT</button>
+        </nav>
+      </div>
+    );
+  }
 }
+const mapStateToProps = state => ({
+  user: state.auth,
+  companies: state.companies
+});
 
-export default NavigationBar;
+export default connect(mapStateToProps, { logout, getUserCompany })(withRouter(NavigationBar));

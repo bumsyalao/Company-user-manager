@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { userSignInRequest, userSignUpRequest } from '../actions/authActions';
-import Alerts from './Alerts';
 
 
 class Auth extends React.Component {
@@ -47,14 +46,11 @@ class Auth extends React.Component {
     };
     this.props
       .userSignInRequest(userData)
-      .then((res) => {
-        console.log('===signin sucess res', res);
+      .then(() => {
         this.props.history.push('/homepage');
-        // this.onRenderAlerts(res.data.message, res.data.status);
       })
       .catch((error) => {
-        console.log('=== sigin error', error.response);
-        // this.onRenderAlerts(error.response.data.message, error.response.status)
+        throw error;
       });
   }
 
@@ -67,22 +63,13 @@ class Auth extends React.Component {
     };
     this.props
       .userSignUpRequest(userData)
-      .then((res) => {
-        console.log('===signup sucess res', this.props.user.message);
+      .then(() => {
         this.props.history.push('/homepage');
-        this.onRenderAlerts(this.props.user.message);
       })
       .catch((error) => {
-        console.log('=== signup error', error);
-        // this.onRenderAlerts(error.response.data.message, error.response.status)
+        throw error;
       });
   }
-
-  onRenderAlerts = (message) => {
-    return (<Alerts message={message} />);
-  }
-
-
 
   render() {
     return (
