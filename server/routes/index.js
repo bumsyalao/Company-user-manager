@@ -29,7 +29,7 @@ module.exports = (app) => {
   app.get('/api/v1/companies', Companies.getCompanies);
 
   //api to create new request
-  app.post('/api/v1/company/:companyId/user/:userId', Requests.createRequest);
+  app.post('/api/v1/company/:companyId/user', auth.checkToken, Requests.createRequest);
 
   //api to accept or decline request
   app.put('/api/v1/company/:companyId/user/:userId', Requests.updateRequest);

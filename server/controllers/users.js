@@ -10,7 +10,7 @@ require('dotenv').config();
 const secret = process.env.SECRET;
 
 const User = models.Users;
-const UserCompany = models.UserCompany;
+const UserCompanyModel = models.UserCompany;
 const Companies = models.Companies;
 
 class Users {
@@ -120,7 +120,7 @@ class Users {
    * @param {object} response object
    */
   getUserCompany(req, res) {
-    UserCompany.findOne({
+    UserCompanyModel.findOne({
         where: {
           userId: req.decoded.userId
         },
@@ -148,7 +148,7 @@ class Users {
             companyType: company.companyType,
             industry: company.industry
           }
-          return res.status(200).send({
+          res.status(200).send({
             userCompany
           }).catch(error => res.status(500).send(error.message));
         }).catch(error => res.status(500).send(error.message));

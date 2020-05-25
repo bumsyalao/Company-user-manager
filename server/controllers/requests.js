@@ -8,7 +8,7 @@ class Requests {
 
   /**
    * Request to join a company 
-   * Route: POST: /company/:companyId/user/:userId
+   * Route: POST: /company/:companyId/user
    *
    * @param {object} request object
    * @param {object} response object
@@ -16,7 +16,7 @@ class Requests {
 
   createRequest(req, res) {
     const companyId = Number(req.params.companyId);
-    const userId = Number(req.params.userId);
+    const userId = Number(req.decoded.userId);
 
     Companies.findByPk(companyId)
       .then((foundCompany) => {
@@ -41,6 +41,7 @@ class Requests {
               companyId: foundCompany.id,
               userId: user.id,
               email: user.email,
+              username: user.username,
               companyName: foundCompany.companyName,
               status: 'new'
             }).then(newRequest => {

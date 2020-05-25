@@ -1,0 +1,105 @@
+$gold: #f66440;
+$pink: #038595;
+
+.company-form {
+  width: 50vw;
+  margin: 0 auto;
+  margin-top: 20px;
+  background-color: #f8f9fa;
+  padding: 30px;
+  box-shadow: 0px 1px 8px #BEBEBE;
+  border-radius: .25rem;
+
+  button {
+    width: 100%;
+    padding: .8em 0 10px .8em;
+    background-color: $gold;
+    border: none;
+    border-radius: .25rem;
+    color: #fff;
+    cursor: pointer;
+    text-transform: uppercase;
+
+    &:hover {
+      background-color: $gold;
+    }
+  }
+}
+
+.company-page {
+  width: 80vw;
+  margin: 0 auto;
+  margin-top: 20px;
+  background-color: #f8f9fa;
+  padding: 30px;
+  box-shadow: 0px 1px 8px #BEBEBE;
+  border-radius: .25rem;
+  overflow: scroll;
+
+  button {
+    width: 50%;
+    padding: .8em 0 10px .8em;
+    background-color: $gold;
+    border: none;
+    border-radius: .25rem;
+    color: #fff;
+    cursor: pointer;
+    text-transform: uppercase;
+    outline: none;
+
+    &:hover {
+      background-color: $gold;
+    }
+  }
+
+  .header-details {
+    display: flex;
+    flex-direction: column;
+
+    span {
+      display: flex;
+      flex-direction: row;
+
+      p {
+        text-transform: uppercase;
+        margin-left: 20px;
+        color: #038595;
+      }
+    }
+  }
+
+  // .request-btn {
+  //   display: flex;
+  //   justify-content: center;
+  //   align-items: center;
+  // }
+}
+
+.user-card {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border: 1px solid $gold;
+  padding: 12px;
+  border-radius: 5px;
+
+  .user-profile-btn {
+    display: flex;
+    flex-direction: row;
+    width: 40%;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+}
+
+@media only screen and (max-device-width: 480px) {
+  .company-form {
+    width: 80%;
+  }
+
+  .company-page {
+    width: 80%;
+  }
+
+}
