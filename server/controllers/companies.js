@@ -66,10 +66,10 @@ class Companies {
         attributes: ['id', 'companyName'],
         limit: limit || 5,
         offset: offset || 0,
-        ...search && {
-          where: {
+        where: {
+          ...search && {
             companyName: {
-              [Op.like]: `%${search}%`
+              [Op.iLike]: `%${search}%`
             }
           }
         }

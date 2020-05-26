@@ -18,7 +18,8 @@ class CompanySearch extends React.Component {
     this.setState({ [event.target.id]: event.target.value });
   }
 
-  onSearch = () => {
+  onSearch = (e) => {
+    e.preventDefault();
     const search = this.state.search
     this.props.getAllCompany(search);
   }

@@ -49,6 +49,13 @@ class CompanyProfile extends React.Component {
   render() {
     const { user } = this.props.user;
     const { userCompany, requestList } = this.props.companies;
+    const requests = requestList.reduce((acc, req) => {
+      const item = acc.find(r => r.email === req.email)
+      if (item) {
+        return acc
+      }
+      return [...acc, req]
+    }, [])
     return (
       <section>
         <div className="company-profile">
@@ -64,12 +71,13 @@ class CompanyProfile extends React.Component {
           <div className="content">
             <div className="content-header">
               <h4>Network</h4>
-              <span>{requestList.length} {'connections'}</span>
+              <span>{requests.length} {'connections'}</span>
             </div>
-            {requestList.map(request => {
-              return request.status === 'ignore' && request.email === user.email ?
-                '' : this.renderUserCard(request)
-            })}
+            {
+              requests.map(request => {
+                return request.status === 'ignore' && request.email === user.email ?
+                  '' : this.renderUserCard(request)
+              })}
           </div>
         </div>
       </section>
