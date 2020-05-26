@@ -30,7 +30,6 @@ class CompanyForm extends React.Component {
       companySize: this.state.companySize,
       industry: this.state.industry
     }
-    console.log(createCompany, '===')
     this.props.actions.createCompany(companyInfo)
       .then(() => {
         this.props.history.push('/homepage/company-profile')

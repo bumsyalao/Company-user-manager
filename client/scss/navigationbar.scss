@@ -7,6 +7,10 @@
     color: #f66440;
     border: 1px #f66440 solid;
     outline: none;
+    padding: .3rem 1rem;
+    border-radius: 6px;
+    text-transform: capitalize;
+    font-weight: 600;
 
     &:hover {
       background-color: #f66440;

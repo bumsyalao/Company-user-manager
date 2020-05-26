@@ -8,8 +8,17 @@ class CompanyProfile extends React.Component {
     super(props);
   }
 
-  componentWillMount() {
-    this.props.getAllRequest();
+  componentDidMount() {
+    if (this.props.companies.userCompany.companyId) {
+      this.props.getAllRequest(this.props.companies.userCompany.companyId);
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const { userCompany } = this.props.companies
+    if (userCompany.companyId !== prevProps.companies.userCompany.companyId) {
+      this.props.getAllRequest(this.props.companies.userCompany.companyId);
+    }
   }
 
   onRequestResponse = (event) => {
@@ -17,7 +26,6 @@ class CompanyProfile extends React.Component {
     const companyId = this.props.companies.userCompany.companyId
     const userId = event.target.id;
     const status = event.target.value;
-    console.log('====status', status)
     this.props.requestResponse(userId, companyId, status);
   }
 
@@ -28,13 +36,13 @@ class CompanyProfile extends React.Component {
           <div>{request.username}</div>
           <div>{request.email}</div>
         </div>
+        <span>{request.status}</span>
         {request.status === 'new' ?
           <div className="user-profile-btn">
             <button className="ignore-btn" value="ignore" id={request.userId} onClick={this.onRequestResponse}>Ignore</button>
             <button className="accept-btn" value="accept" id={request.userId} onClick={this.onRequestResponse}>Accept</button>
           </div> : ''
         }
-
       </div>
     )
   }
@@ -53,9 +61,13 @@ class CompanyProfile extends React.Component {
               <span>Company Industry: <p>{userCompany.industry}</p></span>
             </div>
           </div>
-          <div>
+          <div className="content">
+            <div className="content-header">
+              <h4>Network</h4>
+              <span>{requestList.length} {'connections'}</span>
+            </div>
             {requestList.map(request => {
-              return request.status === 'ignore' ?
+              return request.status === 'ignore' && request.email === user.email ?
                 '' : this.renderUserCard(request)
             })}
           </div>
@@ -64,8 +76,10 @@ class CompanyProfile extends React.Component {
     )
   }
 }
-const mapStateToProps = state => ({
-  user: state.auth,
-  companies: state.companies
-});
+const mapStateToProps = state => {
+  return {
+    user: state.auth,
+    companies: state.companies
+  };
+}
 export default connect(mapStateToProps, { getAllRequest, requestResponse })(withRouter(CompanyProfile));

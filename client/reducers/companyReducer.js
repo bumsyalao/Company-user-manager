@@ -1,13 +1,14 @@
 import * as types from '../actions/types';
 
-export default (
-  state = {
-    userCompany: {},
-    requestList: [],
-    allCompany: [],
-    pagination: {},
+const defaultState = {
+  userCompany: {},
+  requestList: [],
+  allCompany: [],
+  pagination: {},
 
-  },
+}
+export default (
+  state = defaultState,
   action
 ) => {
 
@@ -29,6 +30,8 @@ export default (
         requestList: action.users,
           pagination: action.metaData
       }
+      case types.SIGN_OUT_USER:
+        return defaultState
 
 
       default:

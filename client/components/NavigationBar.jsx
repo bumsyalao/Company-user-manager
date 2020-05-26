@@ -34,15 +34,15 @@ class NavigationBar extends React.Component {
                 <button type="submit">{userCompany.companyName.toUpperCase()}{' '}{'COMPANY'}</button>
               </Link>
               <Link to="/homepage/company-search">
-                <button type="submit">SEARCH COMPANIES</button>
+                <button type="submit">Search</button>
               </Link>
             </>
             :
             <Link to="/homepage/create-company">
-              <button type="submit">CREATE YOUR COMPANY</button>
+              <button type="submit">Create your company</button>
             </Link>
           }
-          <button onClick={this.logout}>LOGOUT</button>
+          <button onClick={this.logout}>Logout</button>
         </nav>
       </div>
     );

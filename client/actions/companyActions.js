@@ -3,7 +3,7 @@ import attachAuthToken from '../utils/attachAuthToken';
 import {
   GET_ALL_COMPANY,
   GET_USER_COMPANY,
-  GET_ALL_COMPANY_REQUEST
+  GET_ALL_COMPANY_REQUEST,
 } from './types';
 
 export const getAllCompanySuccess = ({
@@ -49,9 +49,9 @@ export const createCompany = companyData =>
 
 
 export const getAllCompany = (
-    offset,
-    limit,
-    search
+    search = '',
+    offset = 0,
+    limit = 5,
   ) => dispatch =>
   axios
   .get(
@@ -95,4 +95,8 @@ export const requestResponse = (
     dispatch(getAllRequest(res.data.foundRequest.companyId))
   }).catch((error) => {
     throw error;
-  })
+  });
+
+export const joinCompany = (companyId) => () =>
+  attachAuthToken(localStorage.getItem('token'))
+  .post(`/api/v1/company/${companyId}/user`)

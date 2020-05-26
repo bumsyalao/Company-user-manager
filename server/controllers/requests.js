@@ -70,7 +70,6 @@ class Requests {
     const companyId = Number(req.params.companyId);
     const userId = Number(req.params.userId);
     // const requestUserId = Number(req.params.userId);
-    console.log('=======reuest status', req.body.status)
     // check if user is already in group
     RequestModel.findOne({
         where: {
@@ -117,9 +116,9 @@ class Requests {
     RequestModel.findAndCountAll({
         limit: limit || 5,
         offset: offset || 0,
-        ...search && {
-          where: {
-            companyId,
+        where: {
+          companyId,
+          ...search && {
             username: {
               [Op.like]: `%${search}%`
             }
