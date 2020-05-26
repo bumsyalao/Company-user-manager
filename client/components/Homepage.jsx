@@ -2,7 +2,8 @@ import React from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import NavigationBar from './NavigationBar';
 import CompanyForm from './CompanyForm';
-import CompanyPage from './CompanyPage';
+import CompanyProfile from './CompanyProfile';
+import CompanySearch from './CompanySearch';
 
 class Homepage extends React.Component {
   render() {
@@ -15,8 +16,12 @@ class Homepage extends React.Component {
             component={CompanyForm}
           />
           <Route
-            path={`${this.props.match.url}/company-page`}
-            component={CompanyPage}
+            path={`${this.props.match.url}/company-profile`}
+            component={CompanyProfile}
+          />
+          <Route
+            path={`${this.props.match.url}/company-search`}
+            component={CompanySearch}
           />
         </Switch>
       </div>

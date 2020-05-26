@@ -33,7 +33,7 @@ class CompanyForm extends React.Component {
     console.log(createCompany, '===')
     this.props.actions.createCompany(companyInfo)
       .then(() => {
-        this.props.history.push('/homepage/company-page')
+        this.props.history.push('/homepage/company-profile')
       }).catch((err) => { throw err; })
   }
 

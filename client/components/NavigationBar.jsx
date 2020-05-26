@@ -29,9 +29,14 @@ class NavigationBar extends React.Component {
         <nav className="navbar navbar-light bg-light">
           <a className="navbar-brand">Welcome {user.username && user.username.toUpperCase()}</a>
           {userCompany.companyName ?
-            <Link to="/homepage/company-page">
-              <button type="submit">{userCompany.companyName.toUpperCase()}{' '}{'COMPANY'}</button>
-            </Link>
+            <>
+              <Link to="/homepage/company-profile">
+                <button type="submit">{userCompany.companyName.toUpperCase()}{' '}{'COMPANY'}</button>
+              </Link>
+              <Link to="/homepage/company-search">
+                <button type="submit">SEARCH COMPANIES</button>
+              </Link>
+            </>
             :
             <Link to="/homepage/create-company">
               <button type="submit">CREATE YOUR COMPANY</button>

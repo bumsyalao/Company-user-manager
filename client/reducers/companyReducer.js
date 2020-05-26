@@ -3,8 +3,10 @@ import * as types from '../actions/types';
 export default (
   state = {
     userCompany: {},
+    requestList: [],
     allCompany: [],
-    pagination: {}
+    pagination: {},
+
   },
   action
 ) => {
@@ -21,7 +23,15 @@ export default (
         allCompany: action.companies,
           pagination: action.metaData
       };
-    default:
-      return state;
+    case types.GET_ALL_COMPANY_REQUEST:
+      return {
+        ...state,
+        requestList: action.users,
+          pagination: action.metaData
+      }
+
+
+      default:
+        return state;
   }
 };

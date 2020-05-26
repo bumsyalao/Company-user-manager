@@ -1,3 +1,7 @@
+import {
+  Op
+} from 'sequelize';
+import paginate from '../middleware/paginate';
 import models from '../models';
 
 const RequestModel = models.Requests;
@@ -66,7 +70,7 @@ class Requests {
     const companyId = Number(req.params.companyId);
     const userId = Number(req.params.userId);
     // const requestUserId = Number(req.params.userId);
-
+    console.log('=======reuest status', req.body.status)
     // check if user is already in group
     RequestModel.findOne({
         where: {
@@ -104,20 +108,36 @@ class Requests {
    * @param {object} response object
    */
   getAllRequest(req, res) {
+    const {
+      limit,
+      offset,
+      search
+    } = req.query;
     const companyId = req.params.companyId;
-    RequestModel.findAll({
-        where: {
-          companyId
+    RequestModel.findAndCountAll({
+        limit: limit || 5,
+        offset: offset || 0,
+        ...search && {
+          where: {
+            companyId,
+            username: {
+              [Op.like]: `%${search}%`
+            }
+          }
         }
       })
-      .then((users) => {
+      .then(({
+        rows: users,
+        count
+      }) => {
         if (users.length === 0) {
           res.status(404).send({
             message: 'No Users Found'
           });
         } else {
           res.status(200).send({
-            users
+            users,
+            metaData: paginate(count, limit, offset)
           });
         }
       })

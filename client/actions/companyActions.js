@@ -2,7 +2,8 @@ import axios from 'axios';
 import attachAuthToken from '../utils/attachAuthToken';
 import {
   GET_ALL_COMPANY,
-  GET_USER_COMPANY
+  GET_USER_COMPANY,
+  GET_ALL_COMPANY_REQUEST
 } from './types';
 
 export const getAllCompanySuccess = ({
@@ -20,6 +21,15 @@ export const getUserCompanySuccess = ({
   type: GET_USER_COMPANY,
   userCompany
 });
+
+export const getComapnyRequestSuccess = ({
+  users,
+  metaData
+}) => ({
+  type: GET_ALL_COMPANY_REQUEST,
+  users,
+  metaData
+})
 
 export const getUserCompany = () => dispatch =>
   attachAuthToken(localStorage.getItem('token')).get('/api/v1/user/company').then((res) => {
@@ -53,3 +63,36 @@ export const getAllCompany = (
   .catch((error) => {
     throw error;
   });
+
+export const getAllRequest = (
+    companyId,
+    offset = 0,
+    limit = 5,
+    search = '',
+  ) => dispatch =>
+  attachAuthToken(localStorage.getItem('token'))
+  .get(
+    `/api/v1/company/${companyId}/users?limit=${limit}&offset=${offset}&search=${search}`
+  )
+  .then((response) => {
+    // if (!response.data.users.length > 0) {
+    //   Materialize.toast('User not found', 5000, 'red');
+    // }
+    dispatch(getComapnyRequestSuccess(response.data));
+  })
+  .catch((error) => {
+    throw error;
+  });
+
+export const requestResponse = (
+    userId,
+    companyId,
+    status
+  ) => dispatch => axios.put(`/api/v1/company/${companyId}/user/${userId}`, {
+    status
+  })
+  .then((res) => {
+    dispatch(getAllRequest(res.data.foundRequest.companyId))
+  }).catch((error) => {
+    throw error;
+  })
