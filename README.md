@@ -1,4 +1,4 @@
-# Magnetti-Project
+# LinkedIn-Project
 
 ### Key Application Features
 
