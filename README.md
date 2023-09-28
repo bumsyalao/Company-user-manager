@@ -1,4 +1,4 @@
-# LinkedIn-Project
+# Company-user-manager
 
 ### Key Application Features
 
@@ -9,17 +9,17 @@ A user can perform the following:
 - User can view their company profile
 - User can search all companies
 - User can request to join any company. 
-- User can accept or decline request to their company.
-- User can Logout.
+- User can accept or decline requests to their company.
+- User can log out.
 
 
 ##### Authentication: Users are authenticated and validated using JsonWebToken.
 
 ### Development
 
-This application was developed using NodeJs with express for routing. Postgres was used for persisting data.
+This application was developed using NodeJs with Express for routing. Postgres was used for persisting data.
 
-The frontend was built with the react and redux framework.
+The front end was built with the react and redux framework.
 
 ### Installation
 
@@ -54,7 +54,7 @@ Login, Sign Up and start networking
 ### Later To-Do
 + Add toast messages
 + Add pagination.
-+ Add serach for users
++ Add search for users
 
 
 ### Author
